@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">TaskApplication</string>
+    <string name="set_image_by_handler">Set Image by handler</string>
+    <string name="set_image_by_runOnMainThread">Set Image by runOnMainThread</string>
+    <string name="send_parcelable_object">SEND Parcelable OBJECT</string>
+    <string name="send_serializable_object">SEND Serializable OBJECT</string>
+</resources>
