@@ -4,4 +4,9 @@
     <string name="set_image_by_runOnMainThread">Set Image by runOnMainThread</string>
     <string name="send_parcelable_object">SEND Parcelable OBJECT</string>
     <string name="send_serializable_object">SEND Serializable OBJECT</string>
+    <string name="share">share</string>
+    <string name="play">play Music</string>
+    <string name="stop">stop Music</string>
+    <string name="stopReciver">stop Music and Go To the Next Activity</string>
+    <string name="asynctask_button">AsyncTask Button</string>
 </resources>
