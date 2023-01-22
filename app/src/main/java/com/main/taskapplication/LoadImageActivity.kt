@@ -1,16 +1,19 @@
 package com.main.taskapplication
 
+
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.os.Handler
+import android.os.Looper
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.bumptech.glide.RequestBuilder
 import com.main.taskapplication.databinding.ActivityLoadImageBinding
 import java.io.Serializable
-import java.sql.DriverManager.println
+
 
 class LoadImageActivity : AppCompatActivity(), Runnable {
     lateinit var binding: ActivityLoadImageBinding
@@ -31,17 +34,13 @@ class LoadImageActivity : AppCompatActivity(), Runnable {
             }).start()
         }
         setImageFromInternet()
-//binding.sendObjActivityBtn.setOnClickListener {
-//    val sendIntent: Intent = Intent().apply{
-//        action = Intent.ACTION_SEND
-//        putExtra(Intent.EXTRA_TEXT, "This is my text to send.")
-//        type = "text/plain"
-//    }
-//
-//    val shareIntent = Intent.createChooser(sendIntent, null)
-//    startActivity(shareIntent)
-//
-//}
+        binding.shareBtn.setOnClickListener {
+            val sendIntent = Intent(Intent.ACTION_SEND)
+            sendIntent.putExtra(Intent.EXTRA_SUBJECT, "Check Out This App")
+            sendIntent.putExtra(Intent.EXTRA_TEXT, "The application Link")
+            sendIntent.type = "text/plain"
+            startActivity(Intent.createChooser(sendIntent, "Share Via"))
+        }
         binding.sendObjSerializableActivityBtn.setOnClickListener {
             var person = Person("Ahmed", 23, "Engineer", 4.4)
             val intent = Intent(this@LoadImageActivity, SendObjActivity::class.java)
@@ -51,7 +50,7 @@ class LoadImageActivity : AppCompatActivity(), Runnable {
         }
         binding.sendObjParcelableActivityBtn.setOnClickListener {
             var personInfo = PersonInfo("Ali", 24, "Doctor", 4.1)
-            val intent = Intent(this@LoadImageActivity, SendObjActivity::class.java)
+            val intent = Intent(LoadImageActivity@ this, SendObjActivity::class.java)
             intent.putExtra("objectPersonInfo", personInfo)
             intent.putExtra("num", 1)
             startActivity(intent)
@@ -61,17 +60,6 @@ class LoadImageActivity : AppCompatActivity(), Runnable {
         t1.start()
     }
 
-    fun setImageFromInternet() {
-        Thread(Runnable {
-            img = Glide.with(this)
-                .load("https://images.pexels.com/photos/589841/pexels-photo-589841.jpeg?auto=compress&cs=tinysrgb&w=600")
-
-        }).start()
-        Handler().post(Runnable {
-            img?.into(binding.setImgHandlerImg)
-
-        })
-    }
 
     fun threadByClass() {
         val thread = SleepThread()
@@ -98,11 +86,25 @@ class LoadImageActivity : AppCompatActivity(), Runnable {
         // binding.userImg.setImageResource(()
     }
 
-    override fun run() {
-        println("Try")
-        // runOnUiThread { Runnable {
-        //   Toast.makeText(this@LoadImageActivity, "Its a toast!", Toast.LENGTH_LONG).show()
-        // }
+    fun setImageFromInternet() {
+        Thread(Runnable {
+            img = Glide.with(this)
+                .load("https://images.pexels.com/photos/589841/pexels-photo-589841.jpeg?auto=compress&cs=tinysrgb&w=600")
+
+        }).start()
+        Handler(Looper.getMainLooper()).post(Runnable {
+            img?.into(binding.setImgHandlerImg)
+
+        })
+    }
+
+    open override fun run() {
+        runOnUiThread {
+            Runnable {
+                Toast.makeText(this@LoadImageActivity, "Its a toast!", Toast.LENGTH_LONG).show()
+
+            }
+        }
 //}
     }
 }
